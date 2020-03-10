@@ -5,14 +5,13 @@ from tkinter import messagebox
 from Budget import Budget
 
 
-# TODO: exceptions for empty fields/wrong types - option panes?
 # TODO: create GUI for budgets after creation
 # TODO: functionality for entering paycheck
 class GUI(tk.Frame):
     def __init__(self, master=None):
         super().__init__(master)
         self.master = master
-        self.pack()
+        self.grid()
 
         self.lbl_hello = tk.Label(text="Welcome to the Budget Console")
         self.lbl_name = tk.Label(text="Name")
@@ -34,15 +33,15 @@ class GUI(tk.Frame):
         self.create_widgets()
 
     def create_widgets(self):
-        self.lbl_hello.pack()
-        self.lbl_name.pack()
-        self.txt_name.pack()
-        self.lbl_type.pack()
-        self.opt_type.pack()
-        self.lbl_amount.pack()
-        self.txt_amount.pack()
-        self.btn_create.pack()
-        self.btn_print.pack()
+        self.lbl_hello.grid(row=0)
+        self.lbl_name.grid(row=1)
+        self.txt_name.grid(row=1, column=1)
+        self.lbl_type.grid(row=2)
+        self.opt_type.grid(row=2, column=1)
+        self.lbl_amount.grid(row=3)
+        self.txt_amount.grid(row=3, column=1)
+        self.btn_create.grid(row=4)
+        self.btn_print.grid(row=4, column=1)
 
     def create_budget(self):
         budget = Budget()
@@ -57,11 +56,18 @@ class GUI(tk.Frame):
                 else:
                     budget.set_percentage(float(self.txt_amount.get()))
                 self.budgets.append(budget)
+                self.insert_budget_field()
                 self.clear_create_fields()
             except ValueError:
                 messagebox.showwarning("Invalid Fields", "Amount field must be a decimal value.")
         except TypeError:
             self.txt_name.insert(0, "Enter Name Here")
+
+    def insert_budget_field(self):
+        budget = self.budgets[len(self.budgets)-1]
+        row = len(self.budgets) + 5
+        budget.lbl_name.grid(row)
+        print(budget)
 
     def clear_create_fields(self):
         self.txt_name.delete(0, END)

@@ -1,10 +1,15 @@
+import tkinter as tk
+
+
 class Budget(object):
 
+    # TODO: Exceptions for Constructor
     def __init__(self, budget_name="", budget_type="", budget_percentage=0.0, budget_amount=0.0):
         self.budget_name = budget_name
         self.budget_type = budget_type
         self.budget_percentage = budget_percentage
         self.budget_amount = budget_amount
+        self.lbl_name = tk.Label(text=budget_name)
 
     def is_percentage(self):
         if self.budget_type == "Percentage":
@@ -29,6 +34,7 @@ class Budget(object):
         if not isinstance(name, str) or name == "":
             raise TypeError("Invalid Name Type")
         self.budget_name = name
+        self.lbl_name.config(text=name)
 
     def set_type(self, budget_type):
         if not budget_type == "Percentage" and not budget_type == "Amount":
