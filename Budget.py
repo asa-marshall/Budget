@@ -24,11 +24,17 @@ class Budget(object):
     def get_name(self):
         return self.budget_name
 
+    def get_type(self):
+        return self.budget_type
+
     def get_percentage(self):
         return self.budget_percentage
 
     def get_amount(self):
         return self.budget_amount
+
+    def get_lbl_name(self):
+        return self.lbl_name
 
     def set_name(self, name):
         if not isinstance(name, str) or name == "":

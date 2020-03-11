@@ -1,4 +1,5 @@
 import tkinter as tk
+import traceback
 from tkinter import *
 from tkinter import messagebox
 
@@ -17,6 +18,9 @@ class GUI(tk.Frame):
         self.lbl_name = tk.Label(text="Name")
         self.lbl_type = tk.Label(text="Type")
         self.lbl_amount = tk.Label(text="Amount")
+        self.lbl_field_name = tk.Label(text="Name")
+        self.lbl_field_saved = tk.Label(text="Saved")
+        self.lbl_field_amount = tk.Label()
 
         self.txt_name = tk.Entry()
         self.txt_amount = tk.Entry()
@@ -29,6 +33,7 @@ class GUI(tk.Frame):
         self.btn_print = tk.Button(text="Print Budgets", command=lambda: self.print_budgets())
 
         self.budgets = []
+        self.budget_fields = [[]]
 
         self.create_widgets()
 
@@ -62,12 +67,31 @@ class GUI(tk.Frame):
                 messagebox.showwarning("Invalid Fields", "Amount field must be a decimal value.")
         except TypeError:
             self.txt_name.insert(0, "Enter Name Here")
+            # traceback.print_exc(file=sys.stdout)
 
+    # TODO: switch to local gui fields. no tkinter in Budget
     def insert_budget_field(self):
-        budget = self.budgets[len(self.budgets)-1]
-        row = len(self.budgets) + 5
-        budget.lbl_name.grid(row)
-        print(budget)
+        num = len(self.budgets)
+        print(num)
+        budget = self.budgets[num-1]
+        row = num + 5
+        budget_name = tk.Label(text=budget.get_name())
+        budget_save = tk.Entry()
+        budget_amount = tk.Entry()
+        if budget.is_fixed():
+            budget_amount.insert(0, budget.get_amount())
+        else:
+            budget_amount.insert(0, budget.get_percentage())
+        budget_type = tk.Label(text=budget.get_type())
+
+        self.budget_fields.append([])
+        self.budget_fields[num-1].append(budget_name)
+        self.budget_fields[num-1].append(budget_save)
+        self.budget_fields[num-1].append(budget_amount)
+        self.budget_fields[num-1].append(budget_type)
+
+        for i in range(0, len(self.budget_fields[num-1])):
+            self.budget_fields[num-1][i].grid(row=row, column=i)
 
     def clear_create_fields(self):
         self.txt_name.delete(0, END)
