@@ -1,5 +1,3 @@
-import tkinter as tk
-
 
 class Budget(object):
 
@@ -9,13 +7,13 @@ class Budget(object):
         self.budget_type = budget_type
         self.budget_percentage = budget_percentage
         self.budget_amount = budget_amount
-        self.lbl_name = tk.Label(text=budget_name)
+        self.budget_saved = 0.0
 
     def calculate_budget(self, paycheck):
         if paycheck is None or not isinstance(paycheck, float):
             raise ValueError("Invalid Paycheck Amount")
         if self.is_percentage():
-            return paycheck * self.budget_percentage
+            return paycheck * self.budget_percentage * 0.01
         elif self.is_fixed():
             return self.budget_amount
         else:
@@ -43,14 +41,13 @@ class Budget(object):
     def get_amount(self):
         return self.budget_amount
 
-    def get_lbl_name(self):
-        return self.lbl_name
+    def get_saved(self):
+        return self.budget_saved
 
     def set_name(self, name):
         if not isinstance(name, str) or name == "":
             raise TypeError("Invalid Name Type")
         self.budget_name = name
-        self.lbl_name.config(text=name)
 
     def set_type(self, budget_type):
         if not budget_type == "Percentage" and not budget_type == "Amount":
@@ -67,6 +64,12 @@ class Budget(object):
             raise ValueError("Invalid Amount Value")
         self.budget_amount = amount
 
+    def set_saved(self, saved):
+        if not isinstance(saved, float):
+            raise ValueError("Invalid Saved Value")
+        self.budget_saved = saved
+
     def __repr__(self):
-        return "Name:\t\t" + self.budget_name + "\nType:\t\t" + self.budget_type + "\nPercentage:\t" +\
-               str(self.budget_percentage) + "\nAmount:\t\t" + str(self.budget_amount)
+        return "\nName:\t\t" + self.budget_name + "\nType:\t\t" + self.budget_type + "\nPercentage:\t" +\
+               str(self.budget_percentage) + "\nAmount:\t\t" + str(self.budget_amount) + "\nSaved:\t\t" +\
+               str(self.budget_saved) + "\n"
