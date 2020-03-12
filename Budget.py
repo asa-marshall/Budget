@@ -11,6 +11,16 @@ class Budget(object):
         self.budget_amount = budget_amount
         self.lbl_name = tk.Label(text=budget_name)
 
+    def calculate_budget(self, paycheck):
+        if paycheck is None or not isinstance(paycheck, float):
+            raise ValueError("Invalid Paycheck Amount")
+        if self.is_percentage():
+            return paycheck * self.budget_percentage
+        elif self.is_fixed():
+            return self.budget_amount
+        else:
+            return 0
+
     def is_percentage(self):
         if self.budget_type == "Percentage":
             return True
